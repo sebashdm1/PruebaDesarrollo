@@ -2,9 +2,9 @@ import React from 'react';
 
 
 const ContactsForm  = () => (
-   <div className= "card">
-    <form className=" justify-content-center">
-        <div className="form-group mb-2">
+   <div className= "card" >
+    <form className=" justify-content-center contactForm">
+        <div className="form-group mb-2 inputContainer">
             <label>Departamento*</label>
             <input
                 type="text"
@@ -12,7 +12,7 @@ const ContactsForm  = () => (
                 name="name"
             />
         </div>
-        <div className="form-group mb-2">
+        <div className="form-group mb-2 inputContainer">
             <label>Ciudad*</label>
             <input
                 type="text"
@@ -20,7 +20,7 @@ const ContactsForm  = () => (
                 name="name"
             />
         </div>
-        <div className="form-group mb-2">
+        <div className="form-group mb-2 inputContainer">
             <label>Nombre*</label>
             <input
                 type="text"
@@ -28,7 +28,7 @@ const ContactsForm  = () => (
                 name="name"
             />
         </div>
-        <div className="form-group mb-2">
+        <div className="form-group mb-2 inputContainer">
             <label>Correo*</label>
             <input
                 type="email"

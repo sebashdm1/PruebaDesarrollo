@@ -6,7 +6,7 @@ import BackgroundImage from "./BackgroundImage";
 
 function Example() {
     return (
-        <div className="container">
+        <div>
             <div className='col-md-12 row justify-content-center'>
                 <Header></Header>
             </div>
