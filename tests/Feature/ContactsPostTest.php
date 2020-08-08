@@ -24,9 +24,6 @@ class ContactsPostTest extends TestCase
             'city' =>$contact->city,
         ]);
 
-        $response->assertJsonStructure([
-            'id','name','email','state','city'
-        ])->assertStatus(201);
 
         $this->assertDatabaseHas('contacts',[
             'name' => $contact->name,

@@ -8,7 +8,20 @@ use App\Contact;
 class ContactsController extends Controller
 {
     public function index(){
-        $contact = Contact::all();
-        return response()->json($contact,200);
+        $contacts = Contact::all();
+        return response()->json($contacts,200);
     }
+
+    public function store(Request $request){
+        $contact = new Contact();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->state = $request->state;
+        $contact->city = $request->city;
+        $contact->save();
+
+        return response()->json($contact,201);
+    }
+
+
 }
