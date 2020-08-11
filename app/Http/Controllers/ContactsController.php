@@ -19,9 +19,6 @@ class ContactsController extends Controller
         $contact->state = $request->state;
         $contact->city = $request->city;
         $contact->save();
-
         return response()->json($contact,201);
     }
-
-
 }

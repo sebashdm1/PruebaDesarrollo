@@ -10947,6 +10947,10 @@ input {
   height: 40px !important;
 }
 
+select {
+  height: 40px !important;
+}
+
 .btn {
   background-color: #E03B65;
   text-transform: uppercase;

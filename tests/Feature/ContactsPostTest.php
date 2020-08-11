@@ -14,16 +14,18 @@ class ContactsPostTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function contactsPost()
     {
         $contact = factory(Contact::class)->create();
-        $response = $this->json('POST','/api/contacts/save',[
+
+        $response = $this->json('POST','/api/save',[
             'name' => $contact->name,
             'email' => $contact->email,
             'state' =>$contact->state,
             'city' =>$contact->city,
         ]);
 
+        $response->assertStatus(201);
 
         $this->assertDatabaseHas('contacts',[
             'name' => $contact->name,
