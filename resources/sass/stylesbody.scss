@@ -1,0 +1,60 @@
+@import url('https://fonts.google.com/specimen/Roboto');
+body{
+    margin-left: 5px;
+    background-color:#ffffff;
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+.backgroundimg{
+    margin-top: 90px;
+}
+
+.card{
+    height: 540px;
+    margin-top: 39px;
+    border-radius: 10px 30px 30px 30px;
+    box-shadow: 0 1px 10px 5px #EBEBEB;
+    border: none;
+}
+
+.inputContainer{
+    height: 85px;
+}
+
+.contactForm{
+    margin-top: 57px;
+    padding-left: 50px;
+    padding-right: 50px;
+    align-items: center;
+}
+
+label{
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    line-height: 3px;
+    font-size-adjust: 0.58;
+    letter-spacing:0;
+}
+
+input{
+    display: block;
+    height: 40px !important;
+}
+
+select{
+    height: 40px !important;
+}
+.btn{
+    background-color:#E03B65;
+    text-transform: uppercase;
+    width: 40%;
+    border: 0;
+    height: 50px !important;
+    border-radius: 50px;
+    margin-left: 30%;
+}
+
+button{
+
+}
