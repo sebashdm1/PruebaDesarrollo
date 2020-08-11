@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/contacts','ContactsController@index');
-Route::post('/contacts/save','ConstactsController@store');
+Route::post('/save','ConstactsController@store');
