@@ -12,16 +12,4 @@ class ContactsController extends Controller
         return response()->json($contacts,200);
     }
 
-    public function store(Request $request){
-        $contact = new Contact();
-        $contact->name = $request->name;
-        $contact->email = $request->email;
-        $contact->state = $request->state;
-        $contact->city = $request->city;
-        $contact->save();
-
-        return response()->json($contact,201);
-    }
-
-
 }
