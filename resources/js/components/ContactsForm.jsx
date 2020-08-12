@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-
+import {Alert} from 'reactstrap';
 
 class ContactsForm extends Component{
 
@@ -8,17 +8,22 @@ class ContactsForm extends Component{
         super(props);
         this.state = {
             departamentos:[],
-           form:{
-
-               name: "",
-               email:"",
-               state: "",
-               city: "",
-
+            visible:false,
+            form:{
+                   name: "",
+                   email:"",
+                   state: "",
+                   city: "",
            }
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    toggle(){
+        this.setState({
+            visible: ! this.state.visible
+        });
     }
 
 
@@ -50,8 +55,6 @@ class ContactsForm extends Component{
 
 
     async handleSubmit(event) {
-        console.log(this.state.form)
-
      event.preventDefault()
         try{
             let config ={
@@ -70,8 +73,14 @@ class ContactsForm extends Component{
         }catch (e) {
             this.setState({e})
         }
-    }
+        this.setState({
+            name: "",
+            email:"",
+            state: "",
+            city: "",
+        })
 
+    }
 
     render(){
 
@@ -133,9 +142,17 @@ class ContactsForm extends Component{
                     <button
                         type="submit"
                         className="btn btn-primary mb-2"
+                        onClick={this.toggle.bind(this)}
                     >
                         ENVIAR
                     </button>
+                    <Alert
+                        color="secondary"
+                        isOpen={this.state.visible}
+                        toggle={this.toggle.bind(this)}
+                    >
+                        Informacion enviada correctamente!
+                    </Alert>
                 </form>
             </div>
         )

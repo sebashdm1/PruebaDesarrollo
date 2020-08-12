@@ -10961,6 +10961,25 @@ select {
   margin-left: 30%;
 }
 
+option:hover {
+  background-color: #5C4A96;
+}
+
+.btn:hover {
+  background-color: #5C4A96;
+}
+
+.form-control:focus {
+  border-color: #5C4A96;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.has-error .form-control:focus {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
 .header {
   text-align: center;
 }

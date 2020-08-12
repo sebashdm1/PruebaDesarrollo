@@ -7,9 +7,9 @@
 
         <title>sigma-landing</title>
         <link rel="stylesheet" href="css/app.css">
-
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 
     </head>
     <body>
@@ -17,7 +17,7 @@
                 <div id="example">
                 </div>
             </div>
-        </div>
+
     </body>
 <script type="text/javascript" src="js/app.js"></script>
 </html>
