@@ -9,74 +9,81 @@ class ContactsForm extends Component{
         this.state = {
             departamentos:[],
            form:{
-               departamento: "",
-               ciudad: "",
-               nombre: "",
-               correo:"",
+
+               name: "",
+               email:"",
+               state: "",
+               city: "",
+
            }
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+
+    getItems(){
+        fetch("https://sigma-studios.s3-us-west-2.amazonaws.com/test/colombia.json")
+            .then(response=>{
+                return response.json();
+            })
+            .then((responseJson) =>{
+                this.setState({departamentos:responseJson})
+            })
+    }
+
     handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-        this.setState({
-            [name]: value
-        });
+      event.persist();
+      this.setState({
+          form:{
+              ...this.state.form,
+              [event.target.name]: event.target.value
+          }
+      })
     }
-
-     handleSubmit(event) {
-        event.preventDefault();
-        try{
-            let config ={
-                method : 'POST',
-                headers:{
-                    'Accept' : 'application/json',
-                    'Content-type':'application/json'
-                },
-                body : JSON.stringify(this.state.form)
-            }
-             fetch('http://127.0.0.1:8000/api/save',config)
-                .then(res =>res.json())
-        }catch (e) {
-           this.setState({e})
-        }
-    }
-
 
 
     componentDidMount() {
         this.getItems();
        }
 
-       getItems(){
-           fetch("https://sigma-studios.s3-us-west-2.amazonaws.com/test/colombia.json")
-               .then(response=>{
-                   return response.json();
-               })
-               .then((responseJson) =>{
-                   this.setState({departamentos:responseJson})
-               })
-       }
+
+
+    async handleSubmit(event) {
+        console.log(this.state.form)
+
+     event.preventDefault()
+        try{
+            let config ={
+                method : 'POST',
+                headers:{
+                    'Host':'127.0.0.1:8000',
+                    'X-Powered-By':'PHP/7.4.8',
+                    'Accept' : 'application/json',
+                    'Content-type':'application/json',
+                    'Access-Control-Allow-Origin':'*',
+                },
+                body : JSON.stringify(this.state.form)
+            }
+            fetch('http://127.0.0.1:8000/api/contact',config)
+                .then(res =>res.json())
+        }catch (e) {
+            this.setState({e})
+        }
+    }
 
 
     render(){
+
         const {departamentos} = this.state;
-        console.log(this.state.departamento)
-        console.log(this.state.ciudad)
-        console.log(this.state.nombre)
-        console.log(this.state.correo)
         return(
             <div className= "card" >
                 <form className=" justify-content-center contactForm" onSubmit={this.handleSubmit}>
                     <div className="form-group mb-2 inputContainer">
                         <label>Departamento*</label>
                         <select className="form-control"
-                                name="departamentos"
-                                onChange={ e => this.setState({departamento: e.target.value})}
+                                name="state"
+                                onChange={this.handleInputChange}
                                 onSubmit={this.handleSubmit}>
                              <option disabled selected>Selecciona una opción</option>
                             {Object.keys(departamentos).map(function(dep, index){
@@ -89,11 +96,11 @@ class ContactsForm extends Component{
                     <div className="form-group mb-2 inputContainer">
                         <label>Ciudad*</label>
                         <select className="form-control"
-                                name="ciudades"
-                                onChange={ e => this.setState({ciudad: e.target.value})}
+                                name="city"
+                                onChange={this.handleInputChange}
                                 onSubmit={this.handleSubmit}>
                                 <option disabled selected>Selecciona una opción</option>
-                            {this.state.departamento && this.state.departamentos[this.state.departamento ]
+                            {this.state.form.state && this.state.departamentos[this.state.form.state ]
                                 .map(function (cities) {
                                     return  <option>{cities}</option>
                                 })
@@ -105,8 +112,8 @@ class ContactsForm extends Component{
                         <input
                             type="text"
                             className="form-control"
-                            name="nombre"
-                            value={this.state.nombre}
+                            name="name"
+                            value={this.state.name}
                             onChange={this.handleInputChange}
                             onSubmit={this.handleSubmit}
 
@@ -117,8 +124,8 @@ class ContactsForm extends Component{
                         <input
                             type="email"
                             className="form-control"
-                            name="correo"
-                            value={this.state.correo}
+                            name="email"
+                            value={this.state.email}
                             onChange={this.handleInputChange}
                             onSubmit={this.handleSubmit}
                         />
