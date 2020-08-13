@@ -80802,6 +80802,10 @@ __webpack_require__.r(__webpack_exports__);
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -80835,6 +80839,20 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+var validate = function validate(values) {
+  var errors = {};
+
+  if (!values.form.name) {
+    errors.name = "Este campo es obligatorio";
+  }
+
+  if (!values.form.email) {
+    errors.email = "Este campo es obligatorio";
+  }
+
+  return errors;
+};
+
 var ContactsForm = /*#__PURE__*/function (_Component) {
   _inherits(ContactsForm, _Component);
 
@@ -80854,6 +80872,10 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
         email: "",
         state: "",
         city: ""
+      },
+      errors: {
+        name: "",
+        email: ""
       }
     };
     _this.handleInputChange = _this.handleInputChange.bind(_assertThisInitialized(_this));
@@ -80898,42 +80920,46 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
     key: "handleSubmit",
     value: function () {
       var _handleSubmit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
-        var config;
+        var _this$state, errors, sinErrors, result, config;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                console.log(this.state.form);
                 event.preventDefault();
-
-                try {
-                  config = {
-                    method: 'POST',
-                    headers: {
-                      'Host': '127.0.0.1:8000',
-                      'X-Powered-By': 'PHP/7.4.8',
-                      'Accept': 'application/json',
-                      'Content-type': 'application/json',
-                      'Access-Control-Allow-Origin': '*'
-                    },
-                    body: JSON.stringify(this.state.form)
-                  };
-                  fetch('http://127.0.0.1:8000/api/contact', config).then(function (res) {
-                    return res.json();
-                  });
-                } catch (e) {
-                  this.setState({
-                    e: e
-                  });
-                }
-
+                _this$state = this.state, errors = _this$state.errors, sinErrors = _objectWithoutProperties(_this$state, ["errors"]);
+                result = validate(sinErrors);
                 this.setState({
-                  name: "",
-                  email: "",
-                  state: "",
-                  city: ""
+                  errors: result
                 });
 
-              case 3:
+                if (Object.keys(result).length === 0) {
+                  console.log(this.state.form);
+
+                  try {
+                    config = {
+                      method: 'POST',
+                      headers: {
+                        'Host': '127.0.0.1:8000',
+                        'X-Powered-By': 'PHP/7.4.8',
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                      },
+                      body: JSON.stringify(this.state.form)
+                    };
+                    fetch('http://127.0.0.1:8000/api/contact', config).then(function (res) {
+                      return res.json();
+                    });
+                  } catch (e) {
+                    this.setState({
+                      e: e
+                    });
+                  }
+                }
+
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -80951,6 +80977,7 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var departamentos = this.state.departamentos;
+      var errors = this.state.errors;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "card"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -80961,6 +80988,7 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Departamento*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         className: "form-control",
         name: "state",
+        required: "",
         onChange: this.handleInputChange,
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
@@ -80975,6 +81003,7 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Ciudad*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         className: "form-control",
         name: "city",
+        required: "",
         onChange: this.handleInputChange,
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
@@ -80990,8 +81019,9 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
         name: "name",
         value: this.state.name,
         onChange: this.handleInputChange,
-        onSubmit: this.handleSubmit
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        onSubmit: this.handleSubmit,
+        required: ""
+      }), errors.name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, errors.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group mb-2 inputContainer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Correo*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "email",
@@ -80999,11 +81029,11 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
         name: "email",
         value: this.state.email,
         onChange: this.handleInputChange,
-        onSubmit: this.handleSubmit
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        onSubmit: this.handleSubmit,
+        required: ""
+      }), errors.email && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, errors.email)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-primary mb-2",
-        onClick: this.toggle.bind(this)
+        className: "btn btn-primary mb-2"
       }, "ENVIAR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Alert"], {
         color: "secondary",
         isOpen: this.state.visible,

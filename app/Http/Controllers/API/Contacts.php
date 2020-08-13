@@ -4,11 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\ContactsRequest;
 use App\Contact;
 
 class Contacts extends Controller
 {
-    public function save(Request $request)
+    public function save(ContactsRequest $request)
     {
         $contact = new Contact;
         $contact->name = $request->name;

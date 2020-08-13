@@ -1,6 +1,19 @@
 import React, {Component}  from 'react';
 import {Alert} from 'reactstrap';
 
+const validate = values => {
+  const errors = {}
+  if(!values.form.name){
+      errors.name ="Este campo es obligatorio";
+  }
+    if(!values.form.email){
+        errors.email ="Este campo es obligatorio";
+    }
+  return errors
+}
+
+
+
 class ContactsForm extends Component{
 
 
@@ -14,7 +27,11 @@ class ContactsForm extends Component{
                    email:"",
                    state: "",
                    city: "",
-           }
+           },
+            errors:{
+                name:"",
+                email:""
+            }
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -47,51 +64,49 @@ class ContactsForm extends Component{
       })
     }
 
-
     componentDidMount() {
         this.getItems();
        }
 
-
-
     async handleSubmit(event) {
-     event.preventDefault()
-        try{
-            let config ={
-                method : 'POST',
-                headers:{
-                    'Host':'127.0.0.1:8000',
-                    'X-Powered-By':'PHP/7.4.8',
-                    'Accept' : 'application/json',
-                    'Content-type':'application/json',
-                    'Access-Control-Allow-Origin':'*',
-                },
-                body : JSON.stringify(this.state.form)
+        console.log(this.state.form)
+        event.preventDefault()
+        const {errors,...sinErrors} =this.state;
+        const result = validate(sinErrors);
+        this.setState({errors: result})
+        if(Object.keys(result).length===0 ){
+            console.log(this.state.form)
+            try{
+                let config ={
+                    method : 'POST',
+                    headers:{
+                        'Host':'127.0.0.1:8000',
+                        'X-Powered-By':'PHP/7.4.8',
+                        'Accept' : 'application/json',
+                        'Content-type':'application/json',
+                        'Access-Control-Allow-Origin':'*',
+                    },
+                    body : JSON.stringify(this.state.form)
+                }
+                fetch('http://127.0.0.1:8000/api/contact',config)
+                    .then(res =>res.json())
+            }catch (e) {
+                this.setState({e})
             }
-            fetch('http://127.0.0.1:8000/api/contact',config)
-                .then(res =>res.json())
-        }catch (e) {
-            this.setState({e})
         }
-        this.setState({
-            name: "",
-            email:"",
-            state: "",
-            city: "",
-        })
-
     }
 
     render(){
-
         const {departamentos} = this.state;
+        const {errors} = this.state;
         return(
             <div className= "card" >
-                <form className=" justify-content-center contactForm" onSubmit={this.handleSubmit}>
+                <form className=" justify-content-center contactForm"  onSubmit={this.handleSubmit}>
                     <div className="form-group mb-2 inputContainer">
                         <label>Departamento*</label>
                         <select className="form-control"
                                 name="state"
+                                required=""
                                 onChange={this.handleInputChange}
                                 onSubmit={this.handleSubmit}>
                              <option disabled selected>Selecciona una opción</option>
@@ -106,6 +121,7 @@ class ContactsForm extends Component{
                         <label>Ciudad*</label>
                         <select className="form-control"
                                 name="city"
+                                required=""
                                 onChange={this.handleInputChange}
                                 onSubmit={this.handleSubmit}>
                                 <option disabled selected>Selecciona una opción</option>
@@ -125,9 +141,11 @@ class ContactsForm extends Component{
                             value={this.state.name}
                             onChange={this.handleInputChange}
                             onSubmit={this.handleSubmit}
-
+                            required=""
                         />
+                        {errors.name && <p>{errors.name}</p>}
                     </div>
+
                     <div className="form-group mb-2 inputContainer">
                         <label>Correo*</label>
                         <input
@@ -137,12 +155,14 @@ class ContactsForm extends Component{
                             value={this.state.email}
                             onChange={this.handleInputChange}
                             onSubmit={this.handleSubmit}
+                            required=""
                         />
+                        {errors.email && <p>{errors.email}</p>}
                     </div>
                     <button
                         type="submit"
                         className="btn btn-primary mb-2"
-                        onClick={this.toggle.bind(this)}
+
                     >
                         ENVIAR
                     </button>
