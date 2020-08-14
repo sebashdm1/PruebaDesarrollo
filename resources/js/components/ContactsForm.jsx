@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import {Alert} from 'reactstrap';
+import {Modal,ModalHeader,ModalFooter,ModalBody} from 'reactstrap';
 
 const validate = values => {
   const errors = {}
@@ -9,6 +9,12 @@ const validate = values => {
     if(!values.form.email){
         errors.email ="Este campo es obligatorio";
     }
+    if(!values.form.state){
+        errors.state ="Este campo es obligatorio";
+    }
+    if(!values.form.city){
+        errors.city ="Este campo es obligatorio";
+    }
   return errors
 }
 
@@ -16,21 +22,22 @@ const validate = values => {
 
 class ContactsForm extends Component{
 
-
     constructor(props) {
         super(props);
         this.state = {
             departamentos:[],
-            visible:false,
+            open:"",
             form:{
-                   name: "",
-                   email:"",
-                   state: "",
-                   city: "",
+                    name: "",
+                    email:"",
+                    state: "",
+                    city: "",
            },
             errors:{
-                name:"",
-                email:""
+                    name:"",
+                    email:"",
+                    state:"",
+                    city:"",
             }
         }
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -39,7 +46,7 @@ class ContactsForm extends Component{
 
     toggle(){
         this.setState({
-            visible: ! this.state.visible
+            open: ! this.state.open
         });
     }
 
@@ -53,6 +60,8 @@ class ContactsForm extends Component{
                 this.setState({departamentos:responseJson})
             })
     }
+
+
 
     handleInputChange(event) {
       event.persist();
@@ -90,6 +99,7 @@ class ContactsForm extends Component{
                 }
                 fetch('http://127.0.0.1:8000/api/contact',config)
                     .then(res =>res.json())
+                this.setState({open: true})
             }catch (e) {
                 this.setState({e})
             }
@@ -106,7 +116,7 @@ class ContactsForm extends Component{
                         <label>Departamento*</label>
                         <select className="form-control"
                                 name="state"
-                                required=""
+                                required
                                 onChange={this.handleInputChange}
                                 onSubmit={this.handleSubmit}>
                              <option disabled selected>Selecciona una opción</option>
@@ -115,13 +125,14 @@ class ContactsForm extends Component{
                               })
                             }
                         </select>
+                        {errors.state && <p id="error">{errors.state}</p>}
                     </div>
 
                     <div className="form-group mb-2 inputContainer">
                         <label>Ciudad*</label>
                         <select className="form-control"
                                 name="city"
-                                required=""
+                                required
                                 onChange={this.handleInputChange}
                                 onSubmit={this.handleSubmit}>
                                 <option disabled selected>Selecciona una opción</option>
@@ -131,6 +142,7 @@ class ContactsForm extends Component{
                                 })
                             }
                         </select>
+                        {errors.city && <p id="error">{errors.city}</p>}
                     </div>
                     <div className="form-group mb-2 inputContainer">
                         <label>Nombre*</label>
@@ -141,9 +153,9 @@ class ContactsForm extends Component{
                             value={this.state.name}
                             onChange={this.handleInputChange}
                             onSubmit={this.handleSubmit}
-                            required=""
+                            maxLength="50"
                         />
-                        {errors.name && <p>{errors.name}</p>}
+                        {errors.name && <p id="error" style={{background:"FF0000"}}>{errors.name}</p>}
                     </div>
 
                     <div className="form-group mb-2 inputContainer">
@@ -155,26 +167,30 @@ class ContactsForm extends Component{
                             value={this.state.email}
                             onChange={this.handleInputChange}
                             onSubmit={this.handleSubmit}
-                            required=""
+                            maxLength="30"
                         />
-                        {errors.email && <p>{errors.email}</p>}
+                        {errors.email && <p id="error">{errors.email}</p>}
                     </div>
                     <button
                         type="submit"
                         className="btn btn-primary mb-2"
-
                     >
                         ENVIAR
                     </button>
-                    <Alert
-                        color="secondary"
-                        isOpen={this.state.visible}
-                        toggle={this.toggle.bind(this)}
-                    >
-                        Informacion enviada correctamente!
-                    </Alert>
                 </form>
+               <Modal isOpen={this.state.open}>
+                   <ModalHeader>
+                       <h3>Felicidades!</h3>
+                   </ModalHeader>
+                   <ModalBody>
+                      <h5>Tu información ha sido recibida satisfactoriamente</h5>
+                   </ModalBody>
+                   <ModalFooter>
+                       <button className="btnmodal" onClick={this.toggle}>Cerrar</button>
+                   </ModalFooter>
+               </Modal>
             </div>
+
         )
     }
 }

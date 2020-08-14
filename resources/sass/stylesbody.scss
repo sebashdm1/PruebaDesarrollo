@@ -55,6 +55,17 @@ select{
     margin-left: 30%;
 }
 
+.btnmodal{
+    background-color:#E03B65;
+    text-transform: uppercase;
+    width: 20%;
+    border: 0;
+    height: 50px !important;
+    border-radius: 50px;
+    margin-left: 30%;
+    color: #ffffff;
+}
+
 option:hover{
     background-color:#5C4A96;
 }
@@ -72,4 +83,10 @@ option:hover{
 {
     box-shadow: none;
     -webkit-box-shadow: none;
+}
+
+#error{
+    color:#ff0000;
+    font-size: 15px;
+    text-align: center;
 }

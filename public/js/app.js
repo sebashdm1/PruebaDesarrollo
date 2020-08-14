@@ -80850,6 +80850,14 @@ var validate = function validate(values) {
     errors.email = "Este campo es obligatorio";
   }
 
+  if (!values.form.state) {
+    errors.state = "Este campo es obligatorio";
+  }
+
+  if (!values.form.city) {
+    errors.city = "Este campo es obligatorio";
+  }
+
   return errors;
 };
 
@@ -80866,7 +80874,7 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       departamentos: [],
-      visible: false,
+      open: "",
       form: {
         name: "",
         email: "",
@@ -80875,7 +80883,9 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
       },
       errors: {
         name: "",
-        email: ""
+        email: "",
+        state: "",
+        city: ""
       }
     };
     _this.handleInputChange = _this.handleInputChange.bind(_assertThisInitialized(_this));
@@ -80887,7 +80897,7 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
     key: "toggle",
     value: function toggle() {
       this.setState({
-        visible: !this.state.visible
+        open: !this.state.open
       });
     }
   }, {
@@ -80952,6 +80962,9 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
                     fetch('http://127.0.0.1:8000/api/contact', config).then(function (res) {
                       return res.json();
                     });
+                    this.setState({
+                      open: true
+                    });
                   } catch (e) {
                     this.setState({
                       e: e
@@ -80988,7 +81001,7 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Departamento*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         className: "form-control",
         name: "state",
-        required: "",
+        required: true,
         onChange: this.handleInputChange,
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
@@ -80998,12 +81011,14 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
           key: dep.toString()
         }, dep);
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })), errors.state && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        id: "error"
+      }, errors.state)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group mb-2 inputContainer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Ciudad*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         className: "form-control",
         name: "city",
-        required: "",
+        required: true,
         onChange: this.handleInputChange,
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
@@ -81011,7 +81026,9 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
         selected: true
       }, "Selecciona una opci\xF3n"), this.state.form.state && this.state.departamentos[this.state.form.state].map(function (cities) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", null, cities);
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })), errors.city && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        id: "error"
+      }, errors.city)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group mb-2 inputContainer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Nombre*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
@@ -81020,8 +81037,13 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
         value: this.state.name,
         onChange: this.handleInputChange,
         onSubmit: this.handleSubmit,
-        required: ""
-      }), errors.name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, errors.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        maxLength: "50"
+      }), errors.name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        id: "error",
+        style: {
+          background: "FF0000"
+        }
+      }, errors.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group mb-2 inputContainer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Correo*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "email",
@@ -81030,15 +81052,18 @@ var ContactsForm = /*#__PURE__*/function (_Component) {
         value: this.state.email,
         onChange: this.handleInputChange,
         onSubmit: this.handleSubmit,
-        required: ""
-      }), errors.email && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, errors.email)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        maxLength: "30"
+      }), errors.email && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        id: "error"
+      }, errors.email)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-primary mb-2"
-      }, "ENVIAR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Alert"], {
-        color: "secondary",
-        isOpen: this.state.visible,
-        toggle: this.toggle.bind(this)
-      }, "Informacion enviada correctamente!")));
+      }, "ENVIAR")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
+        isOpen: this.state.open
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["ModalHeader"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Felicidades!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["ModalBody"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", null, "Tu informaci\xF3n ha sido recibida satisfactoriamente")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["ModalFooter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btnmodal",
+        onClick: this.toggle
+      }, "Cerrar"))));
     }
   }]);
 

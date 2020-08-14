@@ -24,7 +24,10 @@ class ContactsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=> 'required'
+            'name'=> 'required',
+            'email'=>'required',
+            'state'=> 'required',
+            'city' => 'required',
         ];
     }
 }
