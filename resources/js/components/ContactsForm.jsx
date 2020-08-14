@@ -183,7 +183,7 @@ class ContactsForm extends Component{
                        <h3>Felicidades!</h3>
                    </ModalHeader>
                    <ModalBody>
-                      <h5>Tu información ha sido recibida satisfactoriamente</h5>
+                      <p>Tu informacion ha sido recibida con exito</p>
                    </ModalBody>
                    <ModalFooter>
                        <button className="btnmodal" onClick={this.toggle}>Cerrar</button>
