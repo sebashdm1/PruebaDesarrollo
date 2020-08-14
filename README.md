@@ -1,8 +1,11 @@
 
 ## About landing
 
-la aplicacion fue creada en el backen con php laravel y en el front con react
-para iniciar la plaicacion se usa en la consola el comando:  php artisan serve
+la aplicacion fue desarrollada en el backend con php laravel y en el front con react
+es necesario instalar comomposer para luego ejecutar  composer require 'vendor/autoload.php';
+y tambien es requerido node_modules.  
+
+al configurar esto se puede ejecutar la aplicacion  con php artisan serve, lo cual me ejecuta el servidor local de laravel. 
 
 la aplicacion tiene pruebas unitarias en el backend
 
